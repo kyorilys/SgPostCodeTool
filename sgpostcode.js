@@ -50,7 +50,7 @@ var getAddBylatlng = function(lat, lng, postcode) {
 }
 
 
-
+//enter the getaddressbypostcode at html and add this at the element (Better is input tag)
 var getAddressByPostCode = function(element) {
 
     var value = element.value; //element here is the input , so if you do not passinput then might need to modified the code.
