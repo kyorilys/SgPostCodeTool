@@ -1,5 +1,5 @@
 //getAddBylatlng require 3 parameter (latitude,ongitude and postcode)
-var getAddBylatlng = function(lat, lng, postcode) {
+var getAddBylatlng = function(lat, lng, postcode,replaceValue) {
 
     //check whether postcode exist
     var checkPostCodeExist = (postcode === undefined || postcode == 0);
@@ -41,8 +41,10 @@ var getAddBylatlng = function(lat, lng, postcode) {
             //remove the Singapore Word
             var result = resultformatted.split(", Singapore");
 
+            //Value to put 
+            replaceValue.value=result[0];
             //$("#@Html.FieldIdFor(model => model.StreetAddress)").val(result[0]);
-            return result[0]; //Address
+            //return result[0]; //Address
 
 
         }
@@ -51,11 +53,12 @@ var getAddBylatlng = function(lat, lng, postcode) {
 
 
 //enter the getaddressbypostcode at html and add this at the element (Better is input tag)
-var getAddressByPostCode = function(element) {
+var getAddressByPostCode = function(element,replaceElement) {
 
-    var value = element.value; //element here is the input , so if you do not passinput then might need to modified the code.
+    //element here is the input , so if you do not passinput then might need to modified the code.
+    var value = element.value; 
     //var value = $("#@Html.FieldIdFor(model => model.ZipPostalCode)").val();
-
+    var replaceValue=document.getElementById(replaceElement);
     //Since normally singapore post code is 6 digit so if will show the result only after you type 6 digit
     if (value.length > 5) {
         $.ajax({
@@ -69,8 +72,11 @@ var getAddressByPostCode = function(element) {
             },
             cache: false,
             success: function(data) {
+                //the result of the data,which I already picked it 
                 var result = data.results[0].geometry.location;
-                getAddBylatlng(result.lat, result.lng, value);
+                //this will put the latitude and longtitude to get the address 
+                // and will replace the element
+                getAddBylatlng(result.lat, result.lng, value,replaceValue);
             }
         });
     }
